@@ -179,7 +179,7 @@ function cookieHeader(jar) {
   return [...jar].map(([k, v]) => `${k}=${v}`).join('; ');
 }
 
-async function fetchPage(startUrl) {
+async function fetchPage(startUrl, ua = UA) {
   let url = startUrl;
   const jar = new Map();
   for (let i = 0; i < 6; i++) {
@@ -188,7 +188,7 @@ async function fetchPage(startUrl) {
     const res = await fetch(url, {
       redirect: 'manual',
       headers: {
-        'user-agent': UA,
+        'user-agent': ua,
         accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'accept-language': 'en-US,en;q=0.9',
         cookie: cookieHeader(jar),
@@ -234,6 +234,42 @@ function parseItem(html) {
   return null;
 }
 
+const MOBILE_UA =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1';
+
+// last resort: pull slide image addresses straight out of the page text
+function itemFromRaw(html, finalUrl) {
+  const urls = [];
+  const re = /"imageURL":\{"urlList":\["([^"]+)"/g;
+  let m;
+  while ((m = re.exec(html))) {
+    let u = m[1];
+    try { u = JSON.parse('"' + u + '"'); } catch { /* keep as is */ }
+    if (/^https:\/\//.test(u) && !urls.includes(u)) urls.push(u);
+  }
+  if (!urls.length) return null;
+  const author = (/\/@([^/?#]+)\//.exec(finalUrl) || [])[1] || '';
+  return { desc: '', author: { uniqueId: author }, imagePost: { images: urls.map((u) => ({ imageURL: { urlList: [u] } })) }, music: {} };
+}
+
+// TikTok sometimes sends a data-less page for slide posts: try a phone browser, then the embed page
+async function findSlides(page) {
+  const id = (/\/(?:photo|video)\/(\d+)/.exec(page.finalUrl) || [])[1];
+  const attempts = [['mobile', page.finalUrl, MOBILE_UA]];
+  if (id) attempts.push(['embed', `https://www.tiktok.com/embed/v2/${id}`, UA]);
+  for (const [name, u, ua] of attempts) {
+    try {
+      const p2 = await fetchPage(u, ua);
+      const item = parseItem(p2.html) || itemFromRaw(p2.html, page.finalUrl);
+      console.log(`[retry:${name}] bytes:${p2.html.length} found:${!!item}`);
+      if (item && item.imagePost) return { item, page: p2 };
+    } catch (e) {
+      console.log(`[retry:${name}] failed: ${String(e.message).slice(0, 120)}`);
+    }
+  }
+  return null;
+}
+
 // short description of what TikTok sent back (goes to the server log only)
 function pageDiag(html, finalUrl) {
   let scopes = [];
@@ -244,7 +280,7 @@ function pageDiag(html, finalUrl) {
     htmlBytes: html.length,
     hasPageData: !!m,
     scopes: scopes.slice(0, 8),
-    looksLikeChallenge: /captcha|verify|waf|challenge|access denied/i.test(html.slice(0, 20000)),
+    looksLikeChallenge: /_wafchallenge|captcha_verify|px-captcha|access denied/i.test(html.slice(0, 50000)),
   };
 }
 
@@ -380,12 +416,16 @@ async function resolveContent(rawUrl) {
   } catch (e) {
     if (e instanceof AppError && e.code === 'INVALID_URL') throw e;
   }
-  const item = page ? parseItem(page.html) : null;
+  let item = page ? parseItem(page.html) : null;
   if (page && !item) console.warn('[page]', JSON.stringify(pageDiag(page.html, page.finalUrl)));
   console.log(`[link] ${url} -> page:${page ? 'ok' : 'FAILED'} data:${item ? 'ok' : 'none'} photo:${!!(item && item.imagePost)}`);
+  if (!item && page && /\/photo\//.test(page.finalUrl)) {
+    const alt = await findSlides(page);
+    if (alt) { item = alt.item; page = alt.page; }
+  }
   if (item && item.imagePost && item.imagePost.images && item.imagePost.images.length) return buildPhoto(item, page);
   if (!item && page && /\/photo\//.test(page.finalUrl)) {
-    throw new AppError('Could not read these slides. TikTok may be blocking the server right now, please try again later.', 502, 'UPSTREAM');
+    throw new AppError('Could not read the slides of this post right now. Videos and audio still work. Please try again later.', 502, 'UPSTREAM');
   }
   return buildVideo(page ? page.finalUrl : url, item, page);
 }
@@ -776,4 +816,4 @@ if (require.main === module) {
   process.on('SIGINT', stop);
 }
 
-module.exports = { server, entries, newEntry, parseItem, pageDiag, infoPayload, makeZip, makePdf, AppError, normalizeInput, pickFormat, isPrivateIp };
+module.exports = { server, entries, newEntry, parseItem, pageDiag, itemFromRaw, infoPayload, makeZip, makePdf, AppError, normalizeInput, pickFormat, isPrivateIp };
