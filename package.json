@@ -1,0 +1,15 @@
+{
+  "name": "tiktok-downloader",
+  "version": "1.0.0",
+  "description": "TikTok downloader: HD video (no watermark), MP3 audio, photo slides as PNG/JPG/PDF/ZIP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/run.js"
+  },
+  "engines": { "node": ">=22.2" },
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.33.5"
+  }
+}
