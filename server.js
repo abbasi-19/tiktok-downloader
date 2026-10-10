@@ -154,6 +154,7 @@ function run(cmd, args, { timeout = 60000 } = {}) {
 function friendlyYtdlpError(e) {
   if (e instanceof AppError) return e;
   const m = String(e && e.message);
+  console.error('[yt-dlp]', m.slice(0, 400)); // real reason goes to the server logs
   if (/private/i.test(m)) return new AppError('This video is private.', 403, 'PRIVATE');
   if (/unavailable|removed|not exist|404|deleted/i.test(m)) return new AppError('This video is unavailable or was removed.', 404, 'NOT_FOUND');
   if (/blocked|403|rate|captcha|verify/i.test(m)) return new AppError('TikTok is blocking requests right now. Please try again in a moment.', 502, 'UPSTREAM');
@@ -355,7 +356,11 @@ async function resolveContent(rawUrl) {
     if (e instanceof AppError && e.code === 'INVALID_URL') throw e;
   }
   const item = page ? parseItem(page.html) : null;
+  console.log(`[link] ${url} -> page:${page ? 'ok' : 'FAILED'} data:${item ? 'ok' : 'none'} photo:${!!(item && item.imagePost)}`);
   if (item && item.imagePost && item.imagePost.images && item.imagePost.images.length) return buildPhoto(item, page);
+  if (!item && page && /\/photo\//.test(page.finalUrl)) {
+    throw new AppError('Could not read these slides. TikTok may be blocking the server right now, please try again later.', 502, 'UPSTREAM');
+  }
   return buildVideo(page ? page.finalUrl : url, item, page);
 }
 
@@ -723,7 +728,7 @@ async function handle(req, res) {
 const server = http.createServer((req, res) => {
   handle(req, res).catch((err) => {
     const status = err.status || 500;
-    if (status >= 500 && !(err instanceof AppError)) console.error('[error]', err);
+    if (status >= 500 || err.code === 'INVALID_URL') console.error('[error]', req.method, req.url, status, err.code || '', err.message);
     if (res.headersSent) return res.destroy();
     sendJson(res, status, { error: err instanceof AppError ? err.message : 'Something went wrong. Please try again.', code: err.code || 'ERROR' });
   });
