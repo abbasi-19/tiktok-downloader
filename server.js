@@ -211,16 +211,41 @@ async function fetchPage(startUrl) {
 }
 
 function parseItem(html) {
+  // 1) modern page data: look through every scope (video-detail, reflow, ...) for the post
   const m = html.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/);
-  if (!m) return null;
-  try {
-    const data = JSON.parse(m[1]);
-    const scope = data.__DEFAULT_SCOPE__ || {};
-    const detail = scope['webapp.video-detail'];
-    return (detail && detail.itemInfo && detail.itemInfo.itemStruct) || null;
-  } catch {
-    return null;
+  if (m) {
+    try {
+      const scope = (JSON.parse(m[1]).__DEFAULT_SCOPE__) || {};
+      for (const key of Object.keys(scope)) {
+        const it = scope[key] && scope[key].itemInfo && scope[key].itemInfo.itemStruct;
+        if (it && (it.video || it.imagePost)) return it;
+      }
+    } catch { /* fall through */ }
   }
+  // 2) older page data
+  const s2 = html.match(/<script id="SIGI_STATE"[^>]*>([\s\S]*?)<\/script>/);
+  if (s2) {
+    try {
+      const mod = JSON.parse(s2[1]).ItemModule || {};
+      const first = Object.values(mod)[0];
+      if (first && (first.video || first.imagePost)) return first;
+    } catch { /* ignore */ }
+  }
+  return null;
+}
+
+// short description of what TikTok sent back (goes to the server log only)
+function pageDiag(html, finalUrl) {
+  let scopes = [];
+  const m = html.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/);
+  if (m) { try { scopes = Object.keys(JSON.parse(m[1]).__DEFAULT_SCOPE__ || {}); } catch { scopes = ['unparsable']; } }
+  return {
+    url: finalUrl.slice(0, 120),
+    htmlBytes: html.length,
+    hasPageData: !!m,
+    scopes: scopes.slice(0, 8),
+    looksLikeChallenge: /captcha|verify|waf|challenge|access denied/i.test(html.slice(0, 20000)),
+  };
 }
 
 function ytdlpArgs(extra) {
@@ -356,6 +381,7 @@ async function resolveContent(rawUrl) {
     if (e instanceof AppError && e.code === 'INVALID_URL') throw e;
   }
   const item = page ? parseItem(page.html) : null;
+  if (page && !item) console.warn('[page]', JSON.stringify(pageDiag(page.html, page.finalUrl)));
   console.log(`[link] ${url} -> page:${page ? 'ok' : 'FAILED'} data:${item ? 'ok' : 'none'} photo:${!!(item && item.imagePost)}`);
   if (item && item.imagePost && item.imagePost.images && item.imagePost.images.length) return buildPhoto(item, page);
   if (!item && page && /\/photo\//.test(page.finalUrl)) {
@@ -750,4 +776,4 @@ if (require.main === module) {
   process.on('SIGINT', stop);
 }
 
-module.exports = { server, entries, newEntry, infoPayload, makeZip, makePdf, AppError, normalizeInput, pickFormat, isPrivateIp };
+module.exports = { server, entries, newEntry, parseItem, pageDiag, infoPayload, makeZip, makePdf, AppError, normalizeInput, pickFormat, isPrivateIp };
