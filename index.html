@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TikTok Downloader – HD Video, MP3 &amp; Slides, No Watermark</title>
+  <meta name="description" content="Paste a TikTok link, preview it, then download the HD video without watermark, the MP3 audio, or photo slides as PNG, JPG or PDF. Fast and free.">
+  <meta name="theme-color" content="#060818">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Home">
+      <span class="avatar">M</span>
+      <span class="brand-name">Muhammad <b>Mughees Abbasi</b></span>
+    </a>
+    <nav class="nav">
+      <a class="nav-link active" href="/">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg><span>Home</span>
+      </a>
+      <button class="nav-link" id="themeBtn" type="button" aria-label="Toggle dark / light mode">
+        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21 14.5A9 9 0 0 1 9.5 3 9 9 0 1 0 21 14.5z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span id="themeLabel">Dark Mode</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <span class="pill">FAST • FREE • NO WATERMARK</span>
+        <h1>TikTok <span class="grad">Downloader</span></h1>
+        <h2>Download TikTok <b class="c-cyan">Videos, Photos &amp; Audio</b></h2>
+        <p>Paste the link below, preview the content and choose your preferred format. Fast, easy and free!</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 420 360" class="art">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19d3ff"/><stop offset=".5" stop-color="#7c4dff"/><stop offset="1" stop-color="#ff2d95"/></linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff2e4d"/><stop offset="1" stop-color="#ff2d95"/></linearGradient>
+            <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <ellipse cx="220" cy="300" rx="150" ry="26" fill="none" stroke="url(#g1)" stroke-width="3" opacity=".7" filter="url(#glow)"/>
+          <g class="float-a" filter="url(#glow)">
+            <rect x="130" y="30" width="170" height="270" rx="30" fill="#0a0d2a" stroke="url(#g1)" stroke-width="5" transform="rotate(8 215 165)"/>
+            <g transform="rotate(8 215 165)">
+              <path d="M232 110v82a24 24 0 1 1-24-24" fill="none" stroke="#19d3ff" stroke-width="14" stroke-linecap="round" transform="translate(-3 3)"/>
+              <path d="M232 110v82a24 24 0 1 1-24-24" fill="none" stroke="#ff2d95" stroke-width="14" stroke-linecap="round" transform="translate(3 -3)"/>
+              <path d="M232 110v82a24 24 0 1 1-24-24" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+              <path d="M232 110c4 22 18 34 38 36" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+            </g>
+          </g>
+          <g class="float-b" filter="url(#glow)">
+            <rect x="48" y="62" width="64" height="54" rx="12" fill="#12163a" stroke="#ff2d95" stroke-width="3"/>
+            <path d="M72 78v22l20-11z" fill="#fff"/>
+          </g>
+          <g class="float-c" filter="url(#glow)">
+            <rect x="34" y="170" width="62" height="54" rx="12" fill="#12163a" stroke="#7c4dff" stroke-width="3"/>
+            <circle cx="56" cy="188" r="5" fill="#fff"/><path d="M42 214l14-14 10 10 8-9 14 13z" fill="#fff"/>
+          </g>
+          <g class="float-b" filter="url(#glow)">
+            <rect x="330" y="150" width="62" height="54" rx="12" fill="#12163a" stroke="#ff2d95" stroke-width="3"/>
+            <path d="M370 162v22a7 7 0 1 1-4-6v-14z" fill="#fff"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- LINK BAR -->
+    <form id="form" class="linkbar" autocomplete="off" novalidate>
+      <span class="linkbar-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+      </span>
+      <input id="url" type="url" inputmode="url" placeholder="Paste TikTok link here…" aria-label="TikTok link" spellcheck="false" autocapitalize="off">
+      <button id="clearBtn" class="clear" type="button" aria-label="Clear" hidden>&times;</button>
+      <button id="goBtn" class="go" type="submit" aria-label="Fetch">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+    <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+
+    <!-- FORMAT CHOOSER -->
+    <h3 class="section-title"><span class="bar"></span>Choose Download Format</h3>
+    <div class="formats" role="radiogroup" aria-label="Download format">
+      <button class="fmt fmt-video selected" type="button" role="radio" aria-checked="true" data-fmt="video">
+        <span class="badge-best"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>Best Quality</span>
+        <span class="fmt-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="m22 8-5 3.5v1L22 16z"/></svg></span>
+        <span class="fmt-title">HD Video Downloader</span>
+        <span class="fmt-sub">Download TikTok video without watermark</span>
+        <span class="fmt-arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>
+      <button class="fmt fmt-audio" type="button" role="radio" aria-checked="false" data-fmt="audio">
+        <span class="fmt-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8l8-2v7.3A3.5 3.5 0 1 0 21 16.5V2z"/></svg></span>
+        <span class="fmt-title">Audio Downloader</span>
+        <span class="fmt-sub">Extract audio from video (MP3)</span>
+        <span class="fmt-arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>
+      <button class="fmt fmt-slides" type="button" role="radio" aria-checked="false" data-fmt="slides">
+        <span class="fmt-icon"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm1 13h14l-4.5-6-3.5 4.5-2.5-3z"/><circle cx="8" cy="9" r="1.6"/></svg></span>
+        <span class="fmt-title">Slides Downloader</span>
+        <span class="fmt-sub">Download slides as PNG, JPG or PDF</span>
+        <span class="fmt-arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>
+    </div>
+
+    <!-- LOADING -->
+    <section id="loading" class="panel loading" hidden aria-live="polite">
+      <div class="ring"><div class="ring-spin"></div><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M14 4v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.4 3 2.4 4.8 5 5"/></svg></div>
+      <h4>Loading preview…</h4>
+      <p>Please wait while we fetch the content details.</p>
+    </section>
+
+    <!-- RESULT: VIDEO -->
+    <section id="panel-video" class="panel result" hidden>
+      <div class="panel-head">
+        <span class="panel-icon pi-pink"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><rect x="2" y="6" width="14" height="12" rx="3"/><path d="m22 8-5 3.5v1L22 16z"/></svg></span>
+        <h3>Video Preview</h3>
+        <span class="ok-badge">Ready to download</span>
+        <span class="url-chip" id="chipVideo"></span>
+      </div>
+      <div class="split">
+        <div class="player">
+          <video id="player" controls playsinline preload="metadata"></video>
+          <div class="player-wait" id="playerWait"><div class="mini-spin"></div><span>Preparing preview…</span></div>
+        </div>
+        <div class="details">
+          <h4><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg>Video Details</h4>
+          <p class="cap" id="vCaption"></p>
+          <dl>
+            <div><dt>Duration</dt><dd id="vDur">–</dd></div>
+            <div><dt>Quality</dt><dd id="vQual">–</dd></div>
+            <div><dt>Format</dt><dd id="vFmt">MP4</dd></div>
+            <div><dt>Size (approx.)</dt><dd id="vSize">–</dd></div>
+          </dl>
+          <p class="note" id="vNote" hidden>No watermark-free version was available for this video.</p>
+          <button class="btn btn-main" id="dlVideo" type="button">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download HD Video
+          </button>
+          <button class="btn btn-ghost" id="copyVideo" type="button">Copy Link</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT: AUDIO -->
+    <section id="panel-audio" class="panel result" hidden>
+      <div class="panel-head">
+        <span class="panel-icon pi-purple"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8l8-2v7.3A3.5 3.5 0 1 0 21 16.5V2z"/></svg></span>
+        <h3>Audio Preview</h3>
+        <span class="ok-badge">Ready to download</span>
+      </div>
+      <div class="split">
+        <div class="audio-box">
+          <div class="audio-art"><img id="aThumb" alt=""><span class="audio-note"><svg viewBox="0 0 24 24" width="38" height="38" fill="#fff"><path d="M9 3v12.3A3.5 3.5 0 1 0 11 18.5V8l8-2v7.3A3.5 3.5 0 1 0 21 16.5V2z"/></svg></span></div>
+          <div class="wave" id="wave" aria-hidden="true"></div>
+          <audio id="audioPlayer" controls preload="none"></audio>
+        </div>
+        <div class="details">
+          <h4>TikTok Audio</h4>
+          <p class="cap" id="aCaption"></p>
+          <dl>
+            <div><dt>Duration</dt><dd id="aDur">–</dd></div>
+            <div><dt>Quality</dt><dd>MP3 • 192 kbps</dd></div>
+            <div><dt>Size (approx.)</dt><dd id="aSize">–</dd></div>
+          </dl>
+          <button class="btn btn-main" id="dlAudio" type="button">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download MP3
+          </button>
+          <button class="btn btn-ghost" id="copyAudio" type="button">Copy Link</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULT: SLIDES -->
+    <section id="panel-slides" class="panel result" hidden>
+      <div class="panel-head">
+        <span class="panel-icon pi-teal"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm1 13h14l-4.5-6-3.5 4.5-2.5-3z"/></svg></span>
+        <h3>Slides Preview</h3>
+        <span class="ok-badge" id="slideBadge">Slides detected</span>
+      </div>
+      <div class="split slides-split">
+        <div class="thumbs" id="thumbs"></div>
+        <div class="dl-options">
+          <h4>Download Options</h4>
+          <button class="btn btn-pink" id="dlZipPng" type="button">Download PNG</button>
+          <button class="btn btn-purple" id="dlZipJpg" type="button">Download JPG</button>
+          <button class="btn btn-cyan" id="dlPdf" type="button">Download PDF</button>
+          <p class="hint">PNG / JPG are saved together in one ZIP file. Tap a slide to view it and save it on its own.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EMPTY STATES -->
+    <section id="panel-empty" class="panel empty" hidden>
+      <h4 id="emptyTitle"></h4>
+      <p id="emptyText"></p>
+      <button class="btn btn-ghost" id="emptyBtn" type="button"></button>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div><span class="f-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></span><div><b>Fast &amp; Secure</b><small>Get your files in seconds</small></div></div>
+      <div><span class="f-icon f-cyan"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5" stroke-linecap="round"/></svg></span><div><b>No Watermark</b><small>Clean and original content</small></div></div>
+      <div><span class="f-icon f-purple"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9.5 4.5 4.5 0 0 1 17.5 18"/><path d="M12 11v8m0 0-3-3m3 3 3-3"/></svg></span><div><b>High Quality</b><small>HD videos &amp; clear images</small></div></div>
+    </section>
+
+    <p class="legal">Only download content you own or have permission to use. Respect the creators' rights.</p>
+  </main>
+
+  <footer class="footer">
+    <span>Developed by</span>
+    <b class="grad">Muhammad Mughees Abbasi</b>
+  </footer>
+
+  <!-- DOWNLOAD OVERLAY -->
+  <div id="overlay" class="overlay" hidden>
+    <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="ovTitle">
+      <div id="ovProgress">
+        <div class="pring" id="pring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"/><circle class="bar" id="pbar" cx="60" cy="60" r="52"/></svg><span id="ppct">0%</span></div>
+        <h4 id="ovTitle">Downloading…</h4>
+        <p id="ovSub">Please don’t close this page.</p>
+        <div class="stats"><div><small>Downloaded</small><b id="stGot">–</b></div><div><small>Speed</small><b id="stSpeed">–</b></div><div><small>Time left</small><b id="stLeft">–</b></div></div>
+        <button class="btn btn-ghost" id="ovCancel" type="button">Cancel</button>
+      </div>
+      <div id="ovDone" hidden>
+        <div class="done-check"><svg viewBox="0 0 52 52" width="64" height="64"><circle cx="26" cy="26" r="24" fill="none" stroke="#1ee3a5" stroke-width="3"/><path d="m15 27 8 8 14-16" fill="none" stroke="#1ee3a5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h4 id="doneTitle">Downloaded successfully!</h4>
+        <p id="doneSub">Your file has been saved to your device.</p>
+        <div class="row">
+          <button class="btn btn-main" id="doneView" type="button">View File</button>
+          <button class="btn btn-ghost" id="doneAgain" type="button">Download Again</button>
+        </div>
+        <button class="link-btn" id="doneClose" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE VIEWER -->
+  <div id="viewer" class="overlay" hidden>
+    <div class="viewer-card" role="dialog" aria-modal="true" aria-label="Slide viewer">
+      <div class="viewer-img">
+        <img id="vImg" alt="Slide">
+        <span class="count" id="vCount">1 / 1</span>
+        <button class="v-close" id="vClose" type="button" aria-label="Close">&times;</button>
+        <button class="v-nav v-prev" id="vPrev" type="button" aria-label="Previous slide">&#8249;</button>
+        <button class="v-nav v-next" id="vNext" type="button" aria-label="Next slide">&#8250;</button>
+      </div>
+      <div class="viewer-side">
+        <h4>Download Slide</h4>
+        <small>Format:</small>
+        <div class="chips" id="chips">
+          <button type="button" class="chip on" data-f="png">PNG</button>
+          <button type="button" class="chip" data-f="jpg">JPG</button>
+          <button type="button" class="chip" data-f="pdf">PDF</button>
+        </div>
+        <button class="btn btn-main" id="vDownload" type="button">Download Slide</button>
+        <button class="btn btn-ghost" id="vBack" type="button">Back to all slides</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="alert" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>
