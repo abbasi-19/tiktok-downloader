@@ -632,8 +632,26 @@ function infoPayload(e) {
 
 const FORMATS = new Set(['png', 'jpg']);
 
+// Optional CORS so the website can live on another host (e.g. Netlify) while this server does the work.
+// ALLOWED_ORIGIN = comma separated list, e.g. https://my-site.netlify.app,https://mydomain.com  (or * for any)
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGIN || '').split(',').map((x) => x.trim().replace(/\/+$/, '')).filter(Boolean);
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  if (!origin || !ALLOWED_ORIGINS.length) return false;
+  if (!ALLOWED_ORIGINS.includes('*') && !ALLOWED_ORIGINS.includes(origin)) return false;
+  res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGINS.includes('*') ? '*' : origin);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Range');
+  res.setHeader('Access-Control-Expose-Headers', 'Content-Length, Content-Range, Content-Disposition, Accept-Ranges');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  return true;
+}
+
 async function handle(req, res) {
   setSecurityHeaders(res);
+  applyCors(req, res);
+  if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
   const url = new URL(req.url, 'http://localhost');
   const p = url.pathname;
   const ip = clientIp(req);
